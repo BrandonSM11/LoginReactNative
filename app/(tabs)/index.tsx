@@ -1,8 +1,59 @@
+import { loginTaskload } from "@/services/users";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { useRouter } from "expo-router";
+
+import React, { useState } from "react";
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 
 export default function LoginScreen() {
+  const [email, setEmail] = useState("");
+  const [pass, setPass] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
+
+const handleLogin = async () => {
+  setLoading(true);
+  try {
+    const result = await loginTaskload({ email, pass });
+
+    if (result.success) {
+      // Aquí tienes acceso al usuario:
+      const user = result.data.user;
+
+      // Por ejemplo, mostrar nombre en consola:
+      console.log("Usuario logueado:", user.name);
+
+      // Navegar a la ruta principal
+      router.replace("/(tabs)/calculator");
+    } else {
+      Alert.alert("Login Failed", result.message || "Login fallido");
+    }
+  } catch (error: any) {
+    if (error.response) {
+      Alert.alert("Error", error.response.data?.message || "Error del servidor");
+    } else if (error.request) {
+      Alert.alert("Error", "No se pudo conectar al servidor");
+    } else {
+      Alert.alert("Error", error.message || "Ocurrió un error desconocido");
+    }
+    console.log("Login error:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
   return (
     <LinearGradient
       colors={["#360060", "#1a0030", "#0d001a"]}
@@ -12,30 +63,30 @@ export default function LoginScreen() {
       <Text style={styles.subtitle}>welcome back we missed you</Text>
 
       <Text style={styles.label}>Username</Text>
-      <TextInput 
-        style={styles.input} 
+      <TextInput
+        style={styles.input}
         placeholder="Username"
         placeholderTextColor="#666"
+        value={email}
+        onChangeText={setEmail}
       />
-      
+
       <Text style={styles.label}>Password</Text>
-      <TextInput 
-        style={styles.input} 
+      <TextInput
+        style={styles.input}
         placeholder="*******"
         placeholderTextColor="#666"
-        secureTextEntry
+        value={pass}
+        onChangeText={setPass}
       />
-      
+
       <View style={styles.forgotContainer}>
         <Text style={styles.passwordMissed}>Forgot Password?</Text>
       </View>
 
       <Pressable
-        onPress={() => alert("Botón presionado")}
-        style={({ pressed }) => [
-          styles.button,
-          pressed && { opacity: 0.7 },
-        ]}
+        onPress={handleLogin}
+        style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}
       >
         <LinearGradient
           colors={["#9C3FE4", "#C65647"]}
@@ -47,45 +98,41 @@ export default function LoginScreen() {
         </LinearGradient>
       </Pressable>
 
-      {/* Divider */}
       <View style={styles.dividerContainer}>
         <View style={styles.dividerLine} />
         <Text style={styles.dividerText}>or continue with</Text>
         <View style={styles.dividerLine} />
       </View>
 
-      {/* Social Buttons */}
       <View style={styles.socialContainer}>
-        
-        <Pressable 
+        <Pressable
           style={({ pressed }) => [
             styles.socialButton,
-            pressed && { opacity: 0.7 }
+            pressed && { opacity: 0.7 },
           ]}
           onPress={() => alert("Google")}
         >
-          <Text style={styles.socialIcon}>G</Text>
+          <AntDesign name="google" size={28} color="white" />
         </Pressable>
 
-        {/* Apple */}
-        <Pressable 
+        <Pressable
           style={({ pressed }) => [
             styles.socialButton,
-            pressed && { opacity: 0.7 }
+            pressed && { opacity: 0.7 },
           ]}
           onPress={() => alert("Apple")}
         >
-          <Text style={styles.socialIcon}>A</Text>
+          <AntDesign name="apple" size={28} color="white" />
         </Pressable>
 
-        <Pressable 
+        <Pressable
           style={({ pressed }) => [
             styles.socialButton,
-            pressed && { opacity: 0.7 }
+            pressed && { opacity: 0.7 },
           ]}
           onPress={() => alert("Facebook")}
         >
-          <Text style={styles.socialIcon}>F</Text>
+          <FontAwesome name="facebook-square" size={28} color="white" />
         </Pressable>
       </View>
     </LinearGradient>
@@ -171,7 +218,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     fontSize: 14,
   },
-  
+
   socialContainer: {
     flexDirection: "row",
     justifyContent: "center",
@@ -189,7 +236,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(164, 164, 164, 0.2)",
   },
   socialIcon: {
-    fontSize: 32,
-    color: "#FFFFFF",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

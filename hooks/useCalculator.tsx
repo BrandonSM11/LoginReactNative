@@ -2,11 +2,11 @@ import { useState } from "react";
 
 export const useCalculator = () => {
 
-   const [display, setDisplay] = useState("0");
-   
+  const [value, setValue] = useState("0");
+
   return{
-    display,
-    setDisplay,
+    value,
+    setValue,
     }
 
 }

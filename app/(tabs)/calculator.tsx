@@ -22,7 +22,7 @@ export default function Calculator() {
   
 
 
-  const { display, setDisplay } = useCalculator();
+  const { value, setValue } = useCalculator();
   
 const Button = ({ text, style, textStyle = {}, onPress }: ButtonProps) => (
   <Pressable
@@ -38,23 +38,25 @@ const Button = ({ text, style, textStyle = {}, onPress }: ButtonProps) => (
 );
 
   
-  const handleNumberPress = (num: number) => {
-    if (display === "0") {
-      setDisplay(num.toString());
-    } else {
-      setDisplay(display + num);
-    }
-  };
+const handleNumberPress = (num: string) => {
+  if (value.includes('.') && num === '.') return
+  
+  if (value === "0") {
+    setValue(num);
+  } else {
+    setValue(value + num);
+  }
+};
 
   const handleClear = () => {
-    setDisplay("0");
+    setValue("0");
   };
   return (
     <View style={styles.container}>
       
       <View style={styles.displayContainer}>
         <Text style={styles.display} numberOfLines={1} adjustsFontSizeToFit>
-          {display}
+          {value}
         </Text>
       </View>
 
@@ -68,29 +70,29 @@ const Button = ({ text, style, textStyle = {}, onPress }: ButtonProps) => (
         </View>
 
         <View style={styles.row}>
-          <Button text="7" style={styles.numberButton} onPress={() => handleNumberPress(7)} />
-          <Button text="8" style={styles.numberButton} onPress={() => handleNumberPress(8)} />
-          <Button text="9" style={styles.numberButton} onPress={() => handleNumberPress(9)} />
+          <Button text="7" style={styles.numberButton} onPress={() => handleNumberPress("7")} />
+          <Button text="8" style={styles.numberButton} onPress={() => handleNumberPress("8")} />
+          <Button text="9" style={styles.numberButton} onPress={() => handleNumberPress("9")} />
           <Button text="×" style={styles.operatorButton} onPress={() => {}} />
         </View>
 
         <View style={styles.row}>
-          <Button text="4" style={styles.numberButton} onPress={() => handleNumberPress(4)} />
-          <Button text="5" style={styles.numberButton} onPress={() => handleNumberPress(5)} />
-          <Button text="6" style={styles.numberButton} onPress={() => handleNumberPress(6)} />
+          <Button text="4" style={styles.numberButton} onPress={() => handleNumberPress("4")} />
+          <Button text="5" style={styles.numberButton} onPress={() => handleNumberPress("5")} />
+          <Button text="6" style={styles.numberButton} onPress={() => handleNumberPress("6")} />
           <Button text="-" style={styles.operatorButton} onPress={() => {}} />
         </View>
 
         <View style={styles.row}>
-          <Button text="1" style={styles.numberButton} onPress={() => handleNumberPress(1)} />
-          <Button text="2" style={styles.numberButton} onPress={() => handleNumberPress(2)} />
-          <Button text="3" style={styles.numberButton} onPress={() => handleNumberPress(3)} />
+          <Button text="1" style={styles.numberButton} onPress={() => handleNumberPress("1")} />
+          <Button text="2" style={styles.numberButton} onPress={() => handleNumberPress("2")} />
+          <Button text="3" style={styles.numberButton} onPress={() => handleNumberPress("3")} />
           <Button text="+" style={styles.operatorButton} onPress={() => {}} />
         </View>
 
         <View style={styles.row}>
-          <Button text="0" style={styles.zeroButton} textStyle={styles.zeroText} onPress={() => handleNumberPress(0)} />
-          <Button text="." style={styles.numberButton} onPress={() => {}} />
+          <Button text="0" style={styles.zeroButton} textStyle={styles.zeroText} onPress={() => handleNumberPress("0")} />
+          <Button text="." style={styles.numberButton} onPress={() => handleNumberPress(".")} />
           <Button text="=" style={styles.operatorButton} onPress={() => {}} />
         </View>
       </View>
