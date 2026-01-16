@@ -1,38 +1,94 @@
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 
 export default function LoginScreen() {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#360060", "#1a0030", "#0d001a"]}
+      style={styles.container}
+    >
       <Text style={styles.title}>Welcome Back!</Text>
       <Text style={styles.subtitle}>welcome back we missed you</Text>
 
       <Text style={styles.label}>Username</Text>
-      <TextInput style={styles.input} placeholder="Username" />
+      <TextInput 
+        style={styles.input} 
+        placeholder="Username"
+        placeholderTextColor="#666"
+      />
+      
       <Text style={styles.label}>Password</Text>
-      <TextInput style={styles.input} placeholder="*******" />
-      <View>
-        <Text style={styles.paswwordMissed}>Forgot Password?</Text>
+      <TextInput 
+        style={styles.input} 
+        placeholder="*******"
+        placeholderTextColor="#666"
+        secureTextEntry
+      />
+      
+      <View style={styles.forgotContainer}>
+        <Text style={styles.passwordMissed}>Forgot Password?</Text>
       </View>
 
       <Pressable
-  onPress={() => alert("Botón presionado")}
-  style={({ pressed }) => [
-    styles.button,
-    pressed && { opacity: 0.7 },
-  ]}
->
-  <LinearGradient
-    colors={["#ff8c00", "#ff0080", "#dd00dd"]}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    style={styles.gradient} 
-  >
-    <Text style={styles.buttonText}>Sign in</Text>
-  </LinearGradient>
-</Pressable>
-    </View>
+        onPress={() => alert("Botón presionado")}
+        style={({ pressed }) => [
+          styles.button,
+          pressed && { opacity: 0.7 },
+        ]}
+      >
+        <LinearGradient
+          colors={["#9C3FE4", "#C65647"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradient}
+        >
+          <Text style={styles.buttonText}>Sign in</Text>
+        </LinearGradient>
+      </Pressable>
+
+      {/* Divider */}
+      <View style={styles.dividerContainer}>
+        <View style={styles.dividerLine} />
+        <Text style={styles.dividerText}>or continue with</Text>
+        <View style={styles.dividerLine} />
+      </View>
+
+      {/* Social Buttons */}
+      <View style={styles.socialContainer}>
+        
+        <Pressable 
+          style={({ pressed }) => [
+            styles.socialButton,
+            pressed && { opacity: 0.7 }
+          ]}
+          onPress={() => alert("Google")}
+        >
+          <Text style={styles.socialIcon}>G</Text>
+        </Pressable>
+
+        {/* Apple */}
+        <Pressable 
+          style={({ pressed }) => [
+            styles.socialButton,
+            pressed && { opacity: 0.7 }
+          ]}
+          onPress={() => alert("Apple")}
+        >
+          <Text style={styles.socialIcon}>A</Text>
+        </Pressable>
+
+        <Pressable 
+          style={({ pressed }) => [
+            styles.socialButton,
+            pressed && { opacity: 0.7 }
+          ]}
+          onPress={() => alert("Facebook")}
+        >
+          <Text style={styles.socialIcon}>F</Text>
+        </Pressable>
+      </View>
+    </LinearGradient>
   );
 }
 
@@ -41,7 +97,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 20,
-    backgroundColor: "#360060",
   },
   title: {
     color: "#EFEFEF",
@@ -58,14 +113,14 @@ const styles = StyleSheet.create({
   input: {
     width: 314,
     height: 55,
-    backgroundColor: "#A4A4A4",
+    backgroundColor: "rgba(164, 164, 164, 0.2)",
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "rgba(164, 164, 164, 0.3)",
     borderRadius: 16,
     padding: 20,
     marginBottom: 15,
     marginLeft: 28,
-    alignItems: "center",
+    color: "#EFEFEF",
   },
   label: {
     marginBottom: 10,
@@ -73,39 +128,68 @@ const styles = StyleSheet.create({
     color: "#A4A4A4",
   },
   gradient: {
-  flex: 1, // ocupa todo el Pressable
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: 15, // mismo que button
-},
-
-  forgot: {},
-  paswwordMissed: {
-    color: "#A4A4A4",
-    marginBottom: 10,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
   },
-
+  forgotContainer: {
+    alignItems: "flex-end",
+    marginRight: 28,
+  },
+  passwordMissed: {
+    color: "#A4A4A4",
+    marginBottom: 20,
+  },
   button: {
     width: 314,
     height: 55,
-    marginBottom: 10,
     marginLeft: 28,
-    padding: 15,
     borderRadius: 15,
+    overflow: "hidden",
   },
   buttonText: {
     color: "white",
+    fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
+  // Divider styles
+  dividerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 30,
+    marginHorizontal: 28,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "rgba(164, 164, 164, 0.3)",
+  },
+  dividerText: {
+    color: "#A4A4A4",
+    marginHorizontal: 15,
+    fontSize: 14,
+  },
+  
+  socialContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 20,
+    marginHorizontal: 28,
+  },
+  socialButton: {
+    width: 80,
+    height: 65,
+    backgroundColor: "rgba(60, 60, 60, 0.8)",
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "rgba(164, 164, 164, 0.2)",
+  },
+  socialIcon: {
+    fontSize: 32,
+    color: "#FFFFFF",
+  },
 });
-
-{
-  /* <LinearGradient
-      colors={['#4c669f', '#3b5998', '#192f6a']}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      style={styles.container} // usamos container aquí
-    >
-    </LinearGradient> */
-}
