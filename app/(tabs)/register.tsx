@@ -87,14 +87,13 @@ const [formData, setFormData] = useState<FormData>({
         <Text style={styles.label}>Password</Text>
         <TextInput
             style={styles.input}
-            placeholder="Brandon"
+            placeholder="******"
+            secureTextEntry
             placeholderTextColor="#666"
 
         />
 
-        <View style={styles.forgotContainer}>
-            <Text style={styles.passwordMissed}>Forgot Password?</Text>
-        </View>
+    
 
         <Pressable
             onPress={handleSubmit}
@@ -106,12 +105,12 @@ const [formData, setFormData] = useState<FormData>({
             end={{ x: 1, y: 1 }}
             style={styles.gradient}
             >
-            <Text style={styles.buttonText}>Sign in</Text>
+            <Text style={styles.buttonText}>Register</Text>
             </LinearGradient>
         </Pressable>
 
         <Pressable
-        onPress={() => route.replace("/(tabs)/register")}
+        onPress={() => route.replace("/(tabs)/index")}
         style={({ pressed }) => pressed && { opacity: 0.7 }}
             > 
             <View style={styles.dontAccountContainer}>
@@ -119,44 +118,7 @@ const [formData, setFormData] = useState<FormData>({
             </View>
         </Pressable>
 
-        <View style={styles.dividerContainer}>
-            <View style={styles.dividerLine} />
-            <Text style={styles.dividerText}>or continue with</Text>
-            <View style={styles.dividerLine} />
-        </View>
-
-        <View style={styles.socialContainer}>
-            <Pressable
-            style={({ pressed }) => [
-                styles.socialButton,
-                pressed && { opacity: 0.7 },
-            ]}
-            onPress={() => alert("Google")}
-            >
-            <AntDesign name="google" size={28} color="white" />
-            </Pressable>
-
-            <Pressable
-            style={({ pressed }) => [
-                styles.socialButton,
-                pressed && { opacity: 0.7 },
-            ]}
-            onPress={() => alert("Apple")}
-            >
-            <AntDesign name="apple" size={28} color="white" />
-            </Pressable>
-
-            <Pressable
-            style={({ pressed }) => [
-                styles.socialButton,
-                pressed && { opacity: 0.7 },
-            ]}
-            onPress={() => alert("Facebook")}
-            >
-            <FontAwesome name="facebook-square" size={28} color="white" />
-            </Pressable>
-        </View>
-        </LinearGradient>
+    </LinearGradient>
     );
     }
 
@@ -180,7 +142,7 @@ const [formData, setFormData] = useState<FormData>({
     },
     input: {
         width: 314,
-        height: 55,
+        height: 40,
         backgroundColor: "rgba(164, 164, 164, 0.2)",
         borderWidth: 1,
         borderColor: "rgba(164, 164, 164, 0.3)",
@@ -214,6 +176,7 @@ const [formData, setFormData] = useState<FormData>({
         height: 55,
         marginLeft: 28,
         borderRadius: 15,
+        marginTop: 15,
         overflow: "hidden",
     },
     buttonText: {
@@ -231,41 +194,6 @@ const [formData, setFormData] = useState<FormData>({
         alignItems: "center",
         marginTop: 20,
     },
-    dividerContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginVertical: 30,
-        marginHorizontal: 28,
-    },
-    dividerLine: {
-        flex: 1,
-        height: 1,
-        backgroundColor: "rgba(164, 164, 164, 0.3)",
-    },
-    dividerText: {
-        color: "#A4A4A4",
-        marginHorizontal: 15,
-        fontSize: 14,
-    },
-
-    socialContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        gap: 20,
-        marginHorizontal: 28,
-    },
-    socialButton: {
-        width: 80,
-        height: 65,
-        backgroundColor: "rgba(60, 60, 60, 0.8)",
-        borderRadius: 16,
-        justifyContent: "center",
-        alignItems: "center",
-        borderWidth: 1,
-        borderColor: "rgba(164, 164, 164, 0.2)",
-    },
-    socialIcon: {
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    });
+    
+}
+);
