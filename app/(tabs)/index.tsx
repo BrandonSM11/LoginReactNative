@@ -1,4 +1,4 @@
-import { loginTaskload } from "@/services/users";
+import { loginPost } from "@/services/users";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
@@ -15,44 +15,31 @@ import {
 } from "react-native";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loanding, setloading] = useState(false);
+  const [userEmail, setEmail] = useState("");
+  const [userPassword, setPassword] = useState("");
 
-  const router = useRouter();
+  const route = useRouter();
 
-const handleLogin = async () => {
-  setLoading(true);
-  try {
-    const result = await loginTaskload({ email, pass });
-
-    if (result.success) {
-      // Aquí tienes acceso al usuario:
-      const user = result.data.user;
-
-      // Por ejemplo, mostrar nombre en consola:
-      console.log("Usuario logueado:", user.name);
-
-      // Navegar a la ruta principal
-      router.replace("/(tabs)/calculator");
-    } else {
-      Alert.alert("Login Failed", result.message || "Login fallido");
+  const handleSubmit = async () => {
+    setloading(true);
+    try {
+      const data = await loginPost(userEmail, userPassword);
+      console.log(data);
+      if (data.data) {
+        Alert.alert("Login exitoso");
+        route.replace("/(tabs)/calculator");
+      }
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        Alert.alert("Credenciales erroneas");
+      } else {
+        Alert.alert("Error", "Error en el servidor. Intenta de nuevo");
+      }
+    } finally {
+      setloading(false);
     }
-  } catch (error: any) {
-    if (error.response) {
-      Alert.alert("Error", error.response.data?.message || "Error del servidor");
-    } else if (error.request) {
-      Alert.alert("Error", "No se pudo conectar al servidor");
-    } else {
-      Alert.alert("Error", error.message || "Ocurrió un error desconocido");
-    }
-    console.log("Login error:", error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+  };
 
   return (
     <LinearGradient
@@ -67,7 +54,7 @@ const handleLogin = async () => {
         style={styles.input}
         placeholder="Username"
         placeholderTextColor="#666"
-        value={email}
+        value={userEmail}
         onChangeText={setEmail}
       />
 
@@ -76,8 +63,9 @@ const handleLogin = async () => {
         style={styles.input}
         placeholder="*******"
         placeholderTextColor="#666"
-        value={pass}
-        onChangeText={setPass}
+        value={userPassword}
+        secureTextEntry
+        onChangeText={setPassword}
       />
 
       <View style={styles.forgotContainer}>
@@ -85,7 +73,7 @@ const handleLogin = async () => {
       </View>
 
       <Pressable
-        onPress={handleLogin}
+        onPress={handleSubmit}
         style={({ pressed }) => [styles.button, pressed && { opacity: 0.7 }]}
       >
         <LinearGradient
@@ -96,6 +84,15 @@ const handleLogin = async () => {
         >
           <Text style={styles.buttonText}>Sign in</Text>
         </LinearGradient>
+      </Pressable>
+
+      <Pressable
+        onPress={() => route.replace("/(tabs)/register")}
+        style={({ pressed }) => pressed && { opacity: 0.7 }}
+      >
+        <View style={styles.dontAccountContainer}>
+          <Text style={styles.dontAccount}> Don't have an account?</Text>
+        </View>
       </Pressable>
 
       <View style={styles.dividerContainer}>
@@ -201,7 +198,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  // Divider styles
+  dontAccount: {
+    color: "#A4A4A4",
+    marginBottom: 20,
+  },
+
+  dontAccountContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
   dividerContainer: {
     flexDirection: "row",
     alignItems: "center",

@@ -1,21 +1,16 @@
 import axios from "axios";
 
-const API_URL = "https://taskload-one.vercel.app/api/auth/login";
-
-interface LoginProps {
-email: string;
-pass: string;
-}
-export const loginTaskload = async (data: LoginProps) => {
-try {
+export const loginPost = async (email: string, pass: string) => {
+  
+  try {
     const response = await axios.post(
-      API_URL,
-      data
+      "https://taskload-one.vercel.app/api/auth/login",
+      {
+        email: email,
+        pass: pass,
+      },
     );
     return response.data;
   } catch (error) {
-    console.log("Axios error:", error);
-    throw error;
-  }
-};
-
+  throw error;
+  }};

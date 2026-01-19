@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 export default function Box() {
   return (
@@ -14,22 +14,22 @@ export default function Box() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row', // 👈 para ponerlos en fila
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
   },
   box: {
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
     flex: 1,
   },
   box1: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
     flex: 1,
   },
   box2: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     flex: 1,
   },
 });
